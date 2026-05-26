@@ -11,10 +11,10 @@ public interface ICartService
     IEnumerable<CartItem> GetAll();
 
     /// <summary>
-    /// Adds a product to the cart or increments its quantity if already present.
+    /// Upserts a cart item. If an item with the same <see cref="CartItem.ProductId"/>
+    /// already exists it is replaced in full. If not, the item is added.
+    /// No quantity validation is performed here — callers must validate before invoking.
     /// </summary>
-    /// <param name="item">The cart item to add.</param>
-    /// <returns>The added or updated cart item.</returns>
     CartItem Add(CartItem item);
 
     /// <summary>

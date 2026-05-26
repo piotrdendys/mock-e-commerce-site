@@ -15,30 +15,52 @@ public class InMemoryCartService : ICartService
     /// <inheritdoc />
     public IEnumerable<CartItem> GetAll()
     {
-        throw new NotImplementedException();
+        lock (_lock)
+        {
+            return _cart.ToList();
+        }
     }
 
     /// <inheritdoc />
     public CartItem? GetByProductId(int productId)
     {
-        throw new NotImplementedException();
+        lock (_lock)
+        {
+            return _cart.FirstOrDefault(i => i.ProductId == productId);
+        }
     }
 
     /// <inheritdoc />
     public CartItem Add(CartItem item)
     {
-        throw new NotImplementedException();
+        lock (_lock)
+        {
+            var existing = _cart.FirstOrDefault(i => i.ProductId == item.ProductId);
+            if (existing is not null)
+                _cart.Remove(existing);
+            _cart.Add(item);
+            return item;
+        }
     }
 
     /// <inheritdoc />
     public bool Remove(int productId)
     {
-        throw new NotImplementedException();
+        lock (_lock)
+        {
+            var item = _cart.FirstOrDefault(i => i.ProductId == productId);
+            if (item is null) return false;
+            _cart.Remove(item);
+            return true;
+        }
     }
 
     /// <inheritdoc />
     public void Clear()
     {
-        throw new NotImplementedException();
+        lock (_lock)
+        {
+            _cart.Clear();
+        }
     }
 }

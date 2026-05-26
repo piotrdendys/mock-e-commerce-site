@@ -1,8 +1,9 @@
 interface HeaderProps {
   cartItemCount: number;
+  onCartClick: () => void;
 }
 
-export function Header({ cartItemCount }: HeaderProps) {
+export function Header({ cartItemCount, onCartClick }: HeaderProps) {
   return (
     <header className="header">
       <div className="header__inner">
@@ -26,6 +27,7 @@ export function Header({ cartItemCount }: HeaderProps) {
         <div className="header__actions">
           <button
             className="header__cart-button"
+            onClick={onCartClick}
             aria-label={`Shopping cart with ${cartItemCount} items`}
           >
             <svg
